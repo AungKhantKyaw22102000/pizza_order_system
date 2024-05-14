@@ -1,0 +1,14 @@
+
+// To clear cache
+
+
+php artisan config:clear
+php artisan cache:clear
+php artisan config:cache => (x3)
+
+
+// vendor
+
+=> vendor => delete
+=> create => composer install
+=> update => composer update
