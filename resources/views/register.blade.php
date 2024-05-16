@@ -35,6 +35,18 @@
         @enderror
 
         <div class="form-group">
+            <label>Gender</label>
+            <select name="gender" id="" class="form-control">
+                <option value="">Choose Gender...</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+        </div>
+        @error('gender')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+
+        <div class="form-group">
             <label>Address</label>
             <input class="au-input au-input--full" type="text" name="address" placeholder="Address">
         </div>

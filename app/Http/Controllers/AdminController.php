@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
@@ -17,8 +18,8 @@ class AdminController extends Controller
 
     // change password
     public function changePassword(Request $request){
-        
-        // 1. all field must be fill 
+
+        // 1. all field must be fill
         // 2. new password & confrim password length must be greateer than 6
         // 3. new password & confrim password must be same
         // 4. old password must be same with db password
@@ -49,6 +50,51 @@ class AdminController extends Controller
     // direct admin profile page
     public function edit(){
         return view('admin.account.edit');
+    }
+
+    // update account
+    public function update($id, Request $request){
+        $this->accountValidationCheck($request);
+        $data = $this->getUserData($request);
+
+        // for image
+        if($request->hasFile('image')){
+            // 1. old image name | 2. check => delete | 3. store
+            $dbImage = User::where('id',$id)->first();
+            $dbImage = $dbImage->image;
+
+            if($dbImage != null){
+                Storage::delete('public/'.$dbImage);
+            }
+
+            $fileName = uniqid() . $request->file('image')->getClientOriginalName();
+            $request->file('image')->storeAs('public',$fileName);
+            $data['image'] = $fileName;
+        }
+        User::where('id',$id)->update($data);
+        return redirect()->route('admin#details')->with(['updateSuccess'=>'Admin Account Updated']);
+    }
+
+    // request user data
+    private function getUserData($request){
+        return [
+            'name' => $request->name,
+            'email' => $request->email,
+            'gender' => $request->gender,
+            'phone' => $request->phone,
+            'address' => $request->address
+        ];
+    }
+
+    // account validation check
+    private function accountValidationCheck($request){
+        Validator::make($request->all(),[
+            'name' => 'required',
+            'email' => 'required',
+            'gender' => 'required',
+            'phone' => 'required',
+            'address' => 'required',
+        ],[])->validate();
     }
 
     // password validation check
