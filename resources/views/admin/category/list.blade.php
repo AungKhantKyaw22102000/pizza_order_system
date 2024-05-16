@@ -28,6 +28,47 @@
                         </div>
                     </div>
 
+                    @if (session('createSuccess'))
+                    <div class="col-4 offset-8">
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-check"></i> {{ session('createSuccess') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if (session('deleteSuccess'))
+                    <div class="col-4 offset-8">
+                        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <i class="fa-solid fa-circle-xmark"></i> {{ session('deleteSuccess') }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    @endif
+
+                    <div class="row">
+                        <div class="col-3">
+                            {{-- <h3 class="text-secondary"><i class="fa-solid fa-database"></i> ({{ $categories->total() }})  </h3> --}}
+                        </div>
+                        <div class="col-3 offset-6">
+                            <form action="{{ route('category#list') }}" method="get">
+                                @csrf
+                                <div class="d-flex">
+                                    <input type="text" name="key" class="form-control" value=" {{ request('key') }}" id="" placeholder="Search...">
+                                    <button class="btn bg-dark text-white" type="submit">
+                                        <i class="fa-solid fa-magnifying-glass"></i>
+                                    </button>
+                                </div>
+                            </form>
+                            <br>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-1 offset-10 bg-white shadow-sm p-2 mb-2 text-center">
+                                <h3 class="text-secondary"><i class="fa-solid fa-database"></i> ({{ $categories->total() }})  </h3>
+                            </div>
+                        </div>
+                    </div>
+
                     @if (count($categories) != 0)
                     <div class="table-responsive table-responsive-data2">
                         <table class="table table-data2 text-center">
@@ -42,7 +83,7 @@
                             <tbody>
                                 @foreach ($categories as $category)
                                 <tr class="tr-shadow">
-                                    <td>{{ $category->category_id }}</td>
+                                    <td>{{ $category->id }}</td>
                                     <td class="col-6">{{ $category->name }}</td>
                                     <td>{{ $category->created_at->format('d-M-Y') }}</td>
                                     <td>
@@ -50,10 +91,12 @@
                                             <button class="item" data-toggle="tooltip" data-placement="top" title="Send">
                                                 <i class="zmdi zmdi-mail-send"></i>
                                             </button>
-                                            <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                <i class="zmdi zmdi-edit"></i>
-                                            </button>
-                                            <a href="{{ route('category#delete',$category->category_id) }}">
+                                            <a href="{{ route('category#edit',$category->id) }}">
+                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                    <i class="zmdi zmdi-edit"></i>
+                                                </button>
+                                            </a>
+                                            <a href="{{ route('category#delete',$category->id) }}">
                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
                                                     <i class="zmdi zmdi-delete"></i>
                                                 </button>
@@ -68,6 +111,10 @@
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="mt-3">
+                            {{ $categories->links() }}
+                            {{-- {{ $categories->appends(request()->query())->links() }} --}}
+                        </div>
                     </div>
                     @else
                     <h3 class="text-secondary text-center mt-5">There is not Category Here!</h>
