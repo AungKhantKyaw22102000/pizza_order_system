@@ -41,7 +41,7 @@
                                     <h4 class="my-2"> <i class="fa-solid fa-phone me-2 my-2"></i> {{ Auth::user()->phone}}</h4>
                                     <h4 class="my-2"> <i class="fa-solid fa-address-book me-2 my-2"></i> {{ Auth::user()->address}}</h4>
                                     <h4 class="my-2"> <i class="fa-solid fa-venus-mars me-2 my-2"></i> {{ Auth::user()->gender}}</h4>
-                                    <h4 class="my-2"> <i class="fa-solid fa-calendar me-2 my-2"></i> {{ Auth::user()->created_at->format('d-M-Y')}}</h4>
+                                    <h4 class="my-2"> <i class="fa-solid fa-user-clock me-2 my-2"></i> {{ Auth::user()->created_at->format('d-M-Y')}}</h4>
                                 </div>
                             </div>
 

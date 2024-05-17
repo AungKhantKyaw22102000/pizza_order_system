@@ -97,7 +97,7 @@
                                                 </button>
                                             </a>
 
-                                            <a href="{{ route('product#edit',$pizza->id) }}">
+                                            <a href="{{ route('product#updatePage',$pizza->id) }}">
                                                 <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
                                                     <i class="zmdi zmdi-edit"></i>
                                                 </button>

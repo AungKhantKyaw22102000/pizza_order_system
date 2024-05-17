@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProductController extends Controller
@@ -27,7 +28,7 @@ class ProductController extends Controller
 
     // product create
     public function create(Request $request){
-        $this->productValidationCheck($request);
+        $this->productValidationCheck($request,"create");
         $data = $this->requestProductInfo($request);
         $fileName = uniqid() . $request->file('productImage')->getClientOriginalName();
         $request->file('productImage')->storeAs('public',$fileName);
@@ -49,6 +50,33 @@ class ProductController extends Controller
         return view('admin.product.edit',compact('pizza'));
     }
 
+    // update product direct route
+    public function updatePage($id){
+        $pizza = Product::where('id',$id)->first();
+        $category = Category::get();
+        return view('admin.product.update',compact('pizza', 'category'));
+    }
+
+    // update product
+    public function update(Request $request){
+        $this->productValidationCheck($request, 'update');
+        $data = $this->requestProductInfo($request);
+
+        if($request->hasFile('productImage')){
+            $oldImageName = Product::where('id',$request->pizzaId)->first();
+            $oldImageName = $oldImageName->image;
+
+            if($oldImageName != null){
+                Storage::delete('public/'.$oldImageName);
+            }
+            $fileName = uniqid().$request->file('productImage')->getClientOriginalName();
+            $request->file('productImage')->storeAs('public',$fileName);
+            $data['image'] = $fileName;
+        }
+        Product::where('id',$request->pizzaId)->update($data);
+        return redirect()->route('product#list');
+    }
+
     // request product info
     private function requestProductInfo($request){
         return [
@@ -61,14 +89,16 @@ class ProductController extends Controller
     }
 
     // product validation check
-    private function productValidationCheck($request){
-        Validator::make($request->all(),[
-            'productName' => 'required|min:5|unique:products,name',
+    private function productValidationCheck($request, $action){
+        $validationRule = [
+            'productName' => 'required|min:5|unique:products,name,'.$request->pizzaId,
             'productCategory' => 'required',
             'productDescription' => 'required|min:10',
-            'productImage' => 'required|mimes:jpg,png,jpeg|file',
             'productPrice' => 'required',
             'waitingTime' => 'required',
-        ],[])->validate();
+        ];
+        $validationRule['productImage'] = $action == "create" ? "required|mimes:jpg,png,jpeg|file" : "mimes:jpg,png,jpeg|file";
+
+        Validator::make($request->all(),$validationRule,[])->validate();
     }
 }
