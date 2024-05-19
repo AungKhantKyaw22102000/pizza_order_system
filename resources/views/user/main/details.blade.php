@@ -41,14 +41,14 @@
                                 </button>
                             </div>
                             <input type="text" class="form-control bg-secondary border-0 text-center" value="1" id="orderCount">
-                            <input type="hidden" value="{{ Auth::user()->id }}" id="userId">
-                            <input type="hidden" id="pizzaId" value="{{ $pizza->id }}">
                             <div class="input-group-btn">
                                 <button class="btn btn-primary btn-plus">
                                     <i class="fa fa-plus"></i>
                                 </button>
                             </div>
                         </div>
+                        <input type="hidden" value="{{ Auth::user()->id }}" id="userId">
+                            <input type="hidden" id="pizzaId" value="{{ $pizza->id }}">
                         <button class="btn btn-primary px-3" id="addCartBtn" type="button"><i class="fa fa-shopping-cart mr-1"></i> Add To Cart</button>
                     </div>
                     <div class="d-flex pt-2">
@@ -118,10 +118,23 @@
     <script>
         $(document).ready(function(){
             $('#addCartBtn').click(function(){
-                $count =$('#orderCount').val();
                 $source = {
+                    'userId' : $('#userId').val() ,
+                    'pizzaId' : $('#pizzaId').val() ,
+                    'count' : $('#orderCount').val() ,
+                };
 
-                }
+                $.ajax({
+                    type : 'get' ,
+                    url : 'http://127.0.0.1:8000/user/ajax/addToCart' ,
+                    data : $source ,
+                    dataType : 'json' ,
+                    success : function(response){
+                        if(response.status == 'success'){
+                            window.location.href = "http://127.0.0.1:8000/user/homePage"
+                        }
+                    }
+                })
             })
         })
     </script>
