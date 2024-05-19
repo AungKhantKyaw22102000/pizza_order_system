@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\User\UserController;
 
 
 // login , register
@@ -41,6 +42,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('edit',[AdminController::class, 'edit'])->name('admin#edit');
             Route::post('update{id}', [AdminController::class, 'update'])->name('admin#update');
 
+            // admin list
+            Route::get('list',[AdminController::class, 'list'])->name('admin#list');
+            Route::get('delete/{id}',[AdminController::class, 'delete'])->name('admin#delete');
+            Route::get('changeRole{id}',[AdminController::class, 'changeRole'])->name('admin#changeRole');
+            Route::post('change/role/{id}',[AdminController::class, 'change'])->name('admin#change');
+
         });
         // product
         Route::prefix('products')->group(function(){
@@ -58,9 +65,19 @@ Route::middleware(['auth'])->group(function () {
     // user
     // home
     Route::prefix('user')->middleware('user_auth')->group(function(){
-        Route::get('home', function(){
-            return view('user.home');
-        })->name('user#home');
+        Route::get('/homePage',[UserController::class,'home'])->name('user#home');
+
+        // password
+        Route::prefix('password')->group(function(){
+            Route::get('change',[UserController::class, 'changePassword'])->name('user#changePasswordPage');
+            Route::post('change',[UserController::class, 'change'])->name('user#changePassword');
+        });
+
+        // account
+        Route::prefix('account')->group(function(){
+            Route::get('change',[UserController::class, 'accountChangePage'])->name('user#accountchangePage');
+            Route::post('change/{id}',[UserController::class, 'accountChange'])->name('user#accountChange');
+        });
     });
 });
 

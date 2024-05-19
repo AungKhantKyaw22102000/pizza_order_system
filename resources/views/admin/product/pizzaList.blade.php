@@ -87,23 +87,23 @@
                                     <td class="col-2"><img src="{{ asset('storage/'.$pizza->image) }}" alt="" class=" img-thumbnail shadow-sm"></td>
                                     <td class="col-2">{{ $pizza->name }}</td>
                                     <td class="col-3">{{ $pizza->price }}</td>
-                                    <td class="col-2">{{ $pizza->category_id }}</td>
+                                    <td class="col-2">{{ $pizza->category_name }}</td>
                                     <td class="col-2"><i class="fa-solid fa-eye"></i> {{ $pizza->view_count }}</td>
                                     <td class="col-2">
                                         <div class="table-data-feature">
                                             <a href="{{ route('product#edit',$pizza->id) }}">
-                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Detail">
+                                                <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Detail">
                                                     <i class="fa-solid fa-eye"></i>
                                                 </button>
                                             </a>
 
                                             <a href="{{ route('product#updatePage',$pizza->id) }}">
-                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Edit">
+                                                <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Edit">
                                                     <i class="zmdi zmdi-edit"></i>
                                                 </button>
                                             </a>
                                             <a href="{{ route('product#delete',$pizza->id) }}">
-                                                <button class="item" data-toggle="tooltip" data-placement="top" title="Delete">
+                                                <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Delete">
                                                     <i class="zmdi zmdi-delete"></i>
                                                 </button>
                                             </a>

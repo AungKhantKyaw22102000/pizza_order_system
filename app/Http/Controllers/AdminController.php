@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -75,6 +75,46 @@ class AdminController extends Controller
         return redirect()->route('admin#details')->with(['updateSuccess'=>'Admin Account Updated']);
     }
 
+    // admin list
+    public function list(){
+        $admin = User::when(request('key'),function($query){
+                    $query->orWhere('name','like','%'.request('key').'%')
+                          ->orWhere('email','like','%'.request('key').'%')
+                          ->orWhere('gender','like','%'.request('key').'%')
+                          ->orWhere('address','like','%'.request('key').'%')
+                          ->orWhere('phone','like','%'.request('key').'%');
+                })
+                ->where('role','admin')->paginate(3);
+        $admin->appends(request()->all());
+        return view('admin.account.list', compact('admin'));
+    }
+
+    // delete account
+    public function delete($id){
+        User::where('id',$id)->delete();
+        return back()->with(['deleteSuccess'=>'Admin Account Deleted...']);
+    }
+
+    // change role
+    public function changeRole($id){
+        $account = User::where('id',$id)->first();
+        return view('admin.account.changeRole', compact('account'));
+    }
+
+    // change
+    public function change($id, Request $request){
+        $data = $this->requestUserData($request);
+        User::where('id',$id)->update($data);
+        return redirect()->route('admin#list');
+    }
+
+    // request user data
+    private function requestUserData($request){
+        return [
+            'role' => $request->role
+        ];
+    }
+
     // request user data
     private function getUserData($request){
         return [
@@ -93,7 +133,7 @@ class AdminController extends Controller
             'email' => 'required',
             'gender' => 'required',
             'phone' => 'required',
-            'image' => 'mimes:png,jpg,jpeg|file',
+            'image' => 'mimes:png,jpg,jpeg,webp|file',
             'address' => 'required',
         ],[])->validate();
     }

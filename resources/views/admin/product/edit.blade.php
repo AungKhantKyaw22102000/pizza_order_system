@@ -39,9 +39,9 @@
                                 <div class="col-7">
                                     <h3 class="my-3 btn bg-danger text-white w-50 text-center d-block fs-5">{{ $pizza->name }}</h3>
                                     <span class="my-3 btn bg-dark text-white"> <i class="fa-solid fa-money-bill-wave me-2 fs-5"></i> {{ $pizza->price }} Kyats</span>
-                                    <span class="my-3 btn bg-dark text-white"> <i class="fa-solid fa-clock me-2 fs-5"></i> {{ $pizza->waiting_time}} Min</span>
+                                    <span class="my-3 btn bg-dark text-white"> <i class="fa-solid fa-clock me-2 fs-5"></i> {{ $pizza->waiting_time}} Mins</span>
                                     <span class="my-3 btn bg-dark text-white"> <i class="fa-solid fa-eye me-2 fs-5"></i> {{ $pizza->view_count}}</span>
-                                    <span class="my-3 btn bg-dark text-white"> <i class="fa-solid fa-clone me-2 fs-5"></i> {{ $pizza->category_id}}</span>
+                                    <span class="my-3 btn bg-dark text-white"> <i class="fa-solid fa-clone me-2 fs-5"></i> {{ $pizza->category_name}}</span>
                                     <span class="my-3 btn bg-dark text-white"> <i class="fa-solid fa-user-clock me-2 fs-5"></i> {{ $pizza->created_at->format('d-M-Y')}}</span>
                                     <div class="my-3"><i class="fa-solid fa-file-lines me-2"></i> Details</div>
                                     <div class="">{{ $pizza->description}}</div>
