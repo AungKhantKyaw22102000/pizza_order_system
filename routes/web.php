@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Product;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\User\AjaxController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProductController;
@@ -66,6 +68,7 @@ Route::middleware(['auth'])->group(function () {
     // home
     Route::prefix('user')->middleware('user_auth')->group(function(){
         Route::get('/homePage',[UserController::class,'home'])->name('user#home');
+        Route::get('/filter/{id}',[UserController::class, 'filter'])->name('user#filter');
 
         // password
         Route::prefix('password')->group(function(){
@@ -77,6 +80,16 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('account')->group(function(){
             Route::get('change',[UserController::class, 'accountChangePage'])->name('user#accountchangePage');
             Route::post('change/{id}',[UserController::class, 'accountChange'])->name('user#accountChange');
+        });
+
+        // ajax
+        Route::prefix('ajax')->group(function(){
+            Route::get('pizza/list',[AjaxController::class,'pizzaList'])->name('ajax#pizzaList');
+        });
+
+        // product
+        Route::prefix('pizza')->group(function(){
+            Route::get('detils/{id}',[UserController::class, 'pizzaDetails'])->name('user#pizzaDetails');
         });
     });
 });

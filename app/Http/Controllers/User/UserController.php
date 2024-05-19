@@ -50,6 +50,13 @@ class UserController extends Controller
         return view('user.profile.account');
     }
 
+    // direct pizza detils
+    public function pizzaDetails($id){
+        $pizza = Product::where('id',$id)->first();
+        $pizzaList = Product::get();
+        return view('user.main.details', compact('pizza', 'pizzaList'));
+    }
+
     // user account change
     public function accountChange($id, Request $request) {
         $this->accountValidationCheck($request);
@@ -71,6 +78,13 @@ class UserController extends Controller
         }
         User::where('id',$id)->update($data);
         return back()->with(['updateSuccess'=>'Admin Account Updated']);
+    }
+
+    // filter pizza
+    public function filter($categoryId){
+        $pizza = Product::where('id',$categoryId)->orderBy('created_at','desc')->get();
+        $category = Category::get();
+        return view('user.main.home', compact('pizza', 'category'));
     }
 
     // password validation check
