@@ -93,6 +93,11 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('pizza')->group(function(){
             Route::get('detils/{id}',[UserController::class, 'pizzaDetails'])->name('user#pizzaDetails');
         });
+
+        // cart
+        Route::prefix('cart')->group(function(){
+            Route::get('cartPage',[UserController::class, 'cartPage'])->name('user#cartPage');
+        });
     });
 });
 

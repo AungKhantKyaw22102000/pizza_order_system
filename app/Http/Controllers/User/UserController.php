@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Cart;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Category;
@@ -18,7 +19,8 @@ class UserController extends Controller
     public function home(){
         $pizza = Product::orderBy('created_at','desc')->get();
         $category = Category::get();
-        return view('user.main.home', compact('pizza', 'category'));
+        $cart = Cart::where('user_id',Auth::user()->id)->get();
+        return view('user.main.home', compact('pizza', 'category', 'cart'));
     }
 
     // change password page
@@ -43,6 +45,19 @@ class UserController extends Controller
             return back()->with(['changeSuccess'=>'Password Changed Success...']);
         }
         return back()->with(['notMatch' => 'The Old Password Not Match. Try Again!']);
+    }
+
+    //cart page
+    public function cartPage(){
+        $cartList = Cart::select('carts.*','products.name as pizza_name','products.price as pizza_price','products.image as product_image')
+                    ->leftJoin('products','products.id','carts.product_id')
+                    ->where('carts.user_id', Auth::user()->id)
+                    ->get();
+        $totalPrice = 0;
+        foreach($cartList as $c){
+            $totalPrice += $c->pizza_price * $c->qty;
+        }
+        return view('user.cart.cart',compact('cartList','totalPrice'));
     }
 
     // user account page
