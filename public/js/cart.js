@@ -19,18 +19,12 @@ $(document).ready(function(){
         summaryCalculation();
     })
 
-    // when cross button click
-    $('.btnRemove').click(function(){
-        $parentNode = $(this).parents("tr");
-        $parentNode.remove();
-        summaryCalculation();
 
-    })
 
     // calculate final price for order
     function summaryCalculation(){
         $totalPrice = 0;
-        $('#dataTable tr').each(function(index,row){
+        $('#dataTable tbody tr').each(function(index,row){
             $totalPrice += Number($(row).find('#total').text().replace("Kyats",""));
         });
 

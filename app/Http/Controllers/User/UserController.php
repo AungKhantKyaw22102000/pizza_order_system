@@ -4,6 +4,7 @@ namespace App\Http\Controllers\User;
 
 use App\Models\Cart;
 use App\Models\User;
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -20,7 +21,8 @@ class UserController extends Controller
         $pizza = Product::orderBy('created_at','desc')->get();
         $category = Category::get();
         $cart = Cart::where('user_id',Auth::user()->id)->get();
-        return view('user.main.home', compact('pizza', 'category', 'cart'));
+        $history = Order::where('user_id',Auth::user()->id)->get();
+        return view('user.main.home', compact('pizza', 'category', 'cart', 'history'));
     }
 
     // change password page
@@ -47,7 +49,7 @@ class UserController extends Controller
         return back()->with(['notMatch' => 'The Old Password Not Match. Try Again!']);
     }
 
-    //cart page
+    //cart list
     public function cartPage(){
         $cartList = Cart::select('carts.*','products.name as pizza_name','products.price as pizza_price','products.image as product_image')
                     ->leftJoin('products','products.id','carts.product_id')
@@ -97,9 +99,17 @@ class UserController extends Controller
 
     // filter pizza
     public function filter($categoryId){
-        $pizza = Product::where('id',$categoryId)->orderBy('created_at','desc')->get();
+        $pizza = Product::where('category_id', $categoryId)->orderBy('created_at','desc')->get();
         $category = Category::get();
-        return view('user.main.home', compact('pizza', 'category'));
+        $cart = Cart::where('user_id',Auth::user()->id)->get();
+        $history = Order::where('user_id',Auth::user()->id)->get();
+        return view('user.main.home', compact('pizza', 'category', 'cart', 'history'));
+    }
+
+    // direct history page
+    public function history(){
+        $order = Order::where('user_id',Auth::user()->id)->orderBy('created_at', 'desc')->paginate(6);
+        return view('user.main.history', compact('order'));
     }
 
     // password validation check

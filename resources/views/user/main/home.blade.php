@@ -44,11 +44,19 @@
                     <div class="col-12 pb-1">
                         <div class="d-flex align-items-center justify-content-between mb-4">
                             <div>
-                                <a href="{{ route('user#cartPage', ) }}">
+                                <a href="{{ route('user#cartPage') }}">
                                     <button type="button" class="btn bg-dark rounded-sm text-white position-relative">
                                         <i class="fa-solid fa-cart-plus"></i>
                                         <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                                             {{ count($cart) }}
+                                        </span>
+                                    </button>
+                                </a>
+                                <a href="{{ route('user#history') }}" class="ms-3">
+                                    <button type="button" class="btn bg-dark rounded-sm text-white position-relative">
+                                        <i class="fa-solid fa-clock-rotate-left"></i> History
+                                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                            {{ count($history) }}
                                         </span>
                                     </button>
                                 </a>
@@ -130,7 +138,7 @@
                                 $list += `<div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                                 <div class="product-item bg-light mb-4" id="myForm">
                                     <div class="product-img position-relative overflow-hidden">
-                                        <img class="img-fluid w-100" style="height: 220px"
+                                        <img class="img-fluid w-100" style="height: 350px"
                                             src="{{ asset('storage/${response[$i].image}') }}" alt="">
                                         <div class="product-action">
                                             <a class="btn btn-outline-dark btn-square" href=""><i
@@ -168,7 +176,7 @@
                                 <div class="col-lg-4 col-md-6 col-sm-6 pb-1">
                                 <div class="product-item bg-light mb-4" id="myForm">
                                     <div class="product-img position-relative overflow-hidden">
-                                        <img class="img-fluid w-100" style="height: 220px"
+                                        <img class="img-fluid w-100" style="height: 350px"
                                             src="{{ asset('storage/${response[$i].image}') }}" alt="">
                                         <div class="product-action">
                                             <a class="btn btn-outline-dark btn-square" href=""><i

@@ -103,7 +103,7 @@ class ProductController extends Controller
             'productPrice' => 'required',
             'waitingTime' => 'required',
         ];
-        $validationRule['productImage'] = $action == "create" ? "required|mimes:jpg,png,jpeg|file" : "mimes:jpg,png,jpeg|file";
+        $validationRule['productImage'] = $action == "create" ? "required|mimes:jpg,png,jpeg,webp|file" : "mimes:jpg,png,jpeg|file";
 
         Validator::make($request->all(),$validationRule,[])->validate();
     }
