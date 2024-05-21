@@ -48,12 +48,7 @@
             <div class="menu-sidebar__content js-scrollbar1">
                 <nav class="navbar-sidebar">
                     <ul class="list-unstyled navbar__list">
-                        {{-- <li class="active has-sub">
-                            <a class="js-arrow" href="index.html">
-                                <i class="fas fa-tachometer-alt"></i>Home Page
-                            </a>
-                        </li> --}}
-                        <li>
+                        <li class="active has-sub">
                             <a href="{{ route('category#list') }}">
                                 <i class="fas fa-chart-bar"></i> Category
                             </a>
@@ -61,6 +56,11 @@
                         <li>
                             <a href="{{ route('product#list') }}">
                                 <i class="fa-solid fa-pizza-slice"></i> Product
+                            </a>
+                        </li>
+                        <li>
+                            <a class="js-arrow" href="{{ route('admin#orderList') }}">
+                                <i class="fa-solid fa-list-check"></i> Order List
                             </a>
                         </li>
                     </ul>
@@ -206,6 +206,8 @@
     <!-- Bootstrap JS-->
     <script src="{{ asset('admin/vendor/bootstrap-4.1/popper.min.js') }}"></script>
     <script src="{{ asset('admin/vendor/bootstrap-4.1/bootstrap.min.js') }}"></script>
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script> --}}
+
     <!-- Vendor JS       -->
     <script src="{{ asset('admin/vendor/slick/slick.min.js') }}">
     </script>
@@ -224,6 +226,7 @@
     <!-- Main JS-->
     <script src="{{ asset('admin/js/main.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.min.js" integrity="sha512-ykZ1QQr0Jy/4ZkvKuqWn4iF3lqPZyij9iRv6sGqLRdTPkY69YX6+7wvVGmsdBbiIfN/8OdsI7HABjvEok6ZopQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    @yield('scriptSection')
 </body>
 
 </html>
