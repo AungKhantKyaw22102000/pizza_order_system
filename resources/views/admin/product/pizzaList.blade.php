@@ -88,7 +88,7 @@
                                     <td class="col-2">{{ $pizza->name }}</td>
                                     <td class="col-3">{{ $pizza->price }}</td>
                                     <td class="col-2">{{ $pizza->category_name }}</td>
-                                    <td class="col-2"><i class="fa-solid fa-eye"></i> {{ $pizza->view_count }}</td>
+                                    <td class="col-2"><i class="fa-solid fa-eye"></i> {{ $pizza->view_count + 1 }}</td>
                                     <td class="col-2">
                                         <div class="table-data-feature">
                                             <a href="{{ route('product#edit',$pizza->id) }}">

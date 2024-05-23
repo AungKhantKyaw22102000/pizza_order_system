@@ -108,6 +108,14 @@ class AdminController extends Controller
         return redirect()->route('admin#list');
     }
 
+    // ajax admin role
+    public function adminRole(Request $request){
+        $changeRole = User::where('id', $request->userId)->update([
+            'role' => $request->status,
+        ]);
+        return response()->json($changeRole, 200);
+    }
+
     // request user data
     private function requestUserData($request){
         return [

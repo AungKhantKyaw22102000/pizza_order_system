@@ -50,8 +50,15 @@ Route::middleware(['auth'])->group(function () {
             Route::get('delete/{id}',[AdminController::class, 'delete'])->name('admin#delete');
             Route::get('changeRole{id}',[AdminController::class, 'changeRole'])->name('admin#changeRole');
             Route::post('change/role/{id}',[AdminController::class, 'change'])->name('admin#change');
+            Route::get('change/admin/role',[AdminController::class, 'adminRole'])->name('admin#adminRole');
 
+            // user
+            Route::prefix('customer')->group(function(){
+                Route::get('list',[UserController::class, 'customerList'])->name('admin#customerList');
+                Route::get('change/user/status',[UserController::class, 'changeUserStatus'])->name('admin#changeUserStatus');
+            });
         });
+
         // product
         Route::prefix('products')->group(function(){
             Route::get('list',[ProductController::class, 'list'])->name('product#list');
@@ -68,6 +75,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('list',[OrderController::class, 'list'])->name('admin#orderList');
             Route::post('change/status',[OrderController::class, 'changeStatus'])->name('admin#changeStatus');
             Route::get('ajax/change/status',[OrderController::class, 'ajaxChangeStatus'])->name('admin#ajaxChangeStatus');
+            Route::get('listInfo{orderCode}',[OrderController::class, 'listInfo'])->name('admin#orderListInfo');
         });
     });
 
@@ -98,6 +106,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('order',[AjaxController::class, 'order'])->name('ajax#order');
             Route::get('clear/cart',[AjaxController::class, 'clearCart'])->name('ajax#clearCart');
             Route::get('clear/current/product',[AjaxController::class, 'clearCurrentProduct'])->name('ajax#clearCurrentProduct');
+            Route::get('increase/viewCount',[AjaxController::class, 'increaseViewCount'])->name('ajax#increaseViewCount');
         });
 
         // product

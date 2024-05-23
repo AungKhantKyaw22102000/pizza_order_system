@@ -112,6 +112,20 @@ class UserController extends Controller
         return view('user.main.history', compact('order'));
     }
 
+    // direct change user role page
+    public function customerList(){
+        $users = User::where('role','user')->paginate(3);
+        return view('admin.user.list',compact('users'));
+    }
+
+    // change user role
+    public function changeUserStatus(Request $request){
+        $user = User::where('id',$request->userId)->update([
+            'role' => $request->status
+        ]);
+        return response()->json($user, 200);
+    }
+
     // password validation check
     private function passwordValidationCheck($request){
         Validator::make($request->all(),[

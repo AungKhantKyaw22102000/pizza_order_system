@@ -63,6 +63,11 @@
                                 <i class="fa-solid fa-list-check"></i> Order List
                             </a>
                         </li>
+                        <li>
+                            <a class="js-arrow" href="{{ route('admin#customerList') }}">
+                                <i class="fa-solid fa-users"></i> User List
+                            </a>
+                        </li>
                     </ul>
                 </nav>
             </div>
@@ -82,7 +87,7 @@
                                     <div class="noti__item js-item-menu">
                                         <i class="zmdi zmdi-notifications"></i>
                                         <span class="quantity">3</span>
-                                        <div class="notifi-dropdown js-dropdown">
+                                        {{-- <div class="notifi-dropdown js-dropdown">
                                             <div class="notifi__title">
                                                 <p>You have 3 Notifications</p>
                                             </div>
@@ -116,7 +121,7 @@
                                             <div class="notifi__footer">
                                                 <a href="#">All notifications</a>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                                 <div class="account-wrap">

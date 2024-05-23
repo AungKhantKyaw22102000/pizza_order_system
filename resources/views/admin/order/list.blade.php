@@ -17,26 +17,6 @@
                         </div>
                     </div>
 
-                    @if (session('createSuccess'))
-                        <div class="col-4 offset-8">
-                            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                                <i class="fa-solid fa-check"></i> {{ session('createSuccess') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        </div>
-                    @endif
-
-                    @if (session('deleteSuccess'))
-                        <div class="col-4 offset-8">
-                            <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                                <i class="fa-solid fa-circle-xmark"></i> {{ session('deleteSuccess') }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                            </div>
-                        </div>
-                    @endif
-
                     <div class="row">
                         <div class="col-3">
                             {{-- <h3 class="text-secondary"><i class="fa-solid fa-database"></i> ({{ $order->total() }})  </h3> --}}
@@ -60,18 +40,27 @@
                             </div>
                         </div>
 
-                        <form action="{{ route('admin#changeStatus') }}" method="post">
+                        <form action="{{ route('admin#changeStatus') }}" method="post" class="col-5">
                             @csrf
                             <div class="d-flex my-3">
-                                <label for="" class="me-4 mt-2">Order Status</label>
-                                <select name="orderStatus" id="orderStatus" class="form-control col-2">
-                                    <option value="">All</option>
-                                    <option value="0">Pending</option>
-                                    <option value="1">Success</option>
-                                    <option value="2">Reject</option>
-                                </select>
-
-                                <button class="btn sm bg-dark text-white" type="submit">Search</button>
+                                <div class="input-group mb-3">
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-append">
+                                            <span class="input-group-text">
+                                                <h3 class="text-secondary"><i class="fa-solid fa-database"></i> {{ count($order) }} </h3>
+                                            </span>
+                                        </div>
+                                        <select class="form-select" name="orderStatus" id="inputGroupSelect04" aria-label="Example select with button addon">
+                                          <option value="">All</option>
+                                          <option value="0" @if(request('orderStatus') == '0') selected @endif>Pending</option>
+                                          <option value="1" @if(request('orderStatus') == '1') selected @endif>Success</option>
+                                          <option value="2" @if(request('orderStatus') == '2') selected @endif>Reject</option>
+                                        </select>
+                                        <div class="input-group-append">
+                                            <button class="btn bg-dark text-white ms-3" type="submit"><i class="fa-solid fa-magnifying-glass me-2"></i>Search</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -97,7 +86,9 @@
                                             <td>{{ $o->user_id }}</td>
                                             <td>{{ $o->user_name }}</td>
                                             <td>{{ $o->created_at->format('M-d-Y') }}</td>
-                                            <td>{{ $o->order_code }}</td>
+                                            <td>
+                                                <a href="{{ route('admin#orderListInfo', $o->order_code) }}" class="text-primary">{{ $o->order_code }}</a>
+                                            </td>
                                             <td>{{ $o->total_price }} Kyats</td>
                                             <td class="align-middle">
                                                 <select name="status" class="form-control statusChange">
@@ -208,7 +199,6 @@
                     'orderId': $orderId,
                 };
 
-                console.log($data);
                 $.ajax({
                     type: 'get',
                     url: 'http://127.0.0.1:8000/order/ajax/change/status',

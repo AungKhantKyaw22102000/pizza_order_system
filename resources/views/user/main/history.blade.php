@@ -28,7 +28,7 @@
                                     @elseif($o->status == 1)
                                         <span class="text-success rounded-sm"><i class="fa-solid fa-check me-2"></i> Success...</span>
                                     @elseif($o->status == 2)
-                                        <span class="text-danger rounded-sm"><i class="fa-solid fa-triangle-exclamation me-2"></i>> Reject...</button>
+                                        <span class="text-danger rounded-sm"><i class="fa-solid fa-triangle-exclamation me-2"></i> Reject...</button>
                                     @endif
                                 </td>
                             </tr>

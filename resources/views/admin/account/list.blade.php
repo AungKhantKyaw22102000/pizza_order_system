@@ -9,24 +9,6 @@
             <div class="container-fluid">
                 <div class="col-md-12">
                     <!-- DATA TABLE -->
-                    <div class="table-data__tool">
-                        <div class="table-data__tool-left">
-                            <div class="overview-wrap">
-                                <h2 class="title-1">Admin List</h2>
-
-                            </div>
-                        </div>
-                        <div class="table-data__tool-right">
-                            <a href="{{ route('category#createPage') }}">
-                                <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                    <i class="zmdi zmdi-plus"></i>add item
-                                </button>
-                            </a>
-                            <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                CSV download
-                            </button>
-                        </div>
-                    </div>
 
                     @if (session('deleteSuccess'))
                     <div class="col-4 offset-8">
@@ -70,12 +52,13 @@
                                     <th>Gender</th>
                                     <th>Phone</th>
                                     <th>Address</th>
-                                    <th></th>
+                                    <th>Role</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($admin as $a)
                                 <tr class="tr-shadow">
+                                    <input type="hidden" value="{{ $a->id }}" class="userId">
                                     <td class="col-2">
                                         @if ($a->image == null)
                                             @if($a->gender == 'male')
@@ -92,16 +75,21 @@
                                     <td>{{ $a->gender }}</td>
                                     <td>{{ $a->phone }}</td>
                                     <td>{{ $a->address }}</td>
+                                    <td class="align-middle">
+                                        @if (Auth::user()->id == $a->id)
+
+                                        @else
+                                        <select name="status" id="" class="form-control statusChange">
+                                            <option value="admin" @if ($a->role == 'admin') selected @endif>Admin</option>
+                                            <option value="user" @if ($a->role == 'user') selected @endif>User</option>
+                                        </select>
+                                        @endif
+                                    </td>
                                     <td>
                                         <div class="table-data-feature justify-content-center">
                                             @if (Auth::user()->id == $a->id)
 
                                             @else
-                                            <a href=" {{ route('admin#changeRole',$a->id) }}">
-                                                <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Change Role">
-                                                    <i class="fa-solid fa-person-circle-exclamation"></i>
-                                                </button>
-                                            </a>
                                             <a href=" {{ route('admin#delete',$a->id) }}">
                                                 <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Delete">
                                                     <i class="zmdi zmdi-delete"></i>
@@ -125,4 +113,30 @@
         </div>
     </div>
     <!-- END MAIN CONTENT-->
+@endsection
+
+
+@section('scriptSection')
+<script>
+    $(document).ready(function(){
+        $('.statusChange').change(function(){
+            $currentStatus = $(this).val();
+            $parentNode = $(this).parents("tr");
+            $userId = $parentNode.find('.userId').val();
+            $data = {
+                'status' : $currentStatus ,
+                'userId' : $userId
+            }
+            $.ajax({
+                type: 'get',
+                url : 'http://127.0.0.1:8000/admin/change/admin/role',
+                data : {
+                    'status' : $currentStatus ,
+                    'userId' : $userId
+                } ,
+                dataType : 'json' ,
+            })
+        })
+    })
+</script>
 @endsection
