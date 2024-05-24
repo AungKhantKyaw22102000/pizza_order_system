@@ -121,5 +121,4 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
-
 // user
