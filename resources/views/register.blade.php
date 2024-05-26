@@ -63,7 +63,7 @@
         @enderror
 
         <div class="form-group">
-            <label>Password</label>
+            <label>Confirm Password</label>
             <input class="au-input au-input--full" type="password" name="password_confirmation" placeholder="Confirm Password">
         </div>
         @error('password_confirmation')
@@ -75,7 +75,7 @@
     </form>
     <div class="register-link">
         <p>
-            Already have account?
+            You Don't Have Account?
             <a href="{{ route('auth#loginPage') }}">Sign In</a>
         </p>
     </div>
