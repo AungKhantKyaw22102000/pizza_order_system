@@ -71,7 +71,6 @@ class AjaxController extends Controller
 
     // clear current product
     public function clearCurrentProduct(Request $request){
-        logger($request->all());
         Cart::where('user_id',Auth::user()->id)
             ->where('product_id',$request->productId)
             ->where('id',$request->orderId)
