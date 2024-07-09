@@ -21,9 +21,11 @@
                                     <i class="zmdi zmdi-plus"></i>Add Product
                                 </button>
                             </a>
-                            <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                CSV download
-                            </button>
+                            <a href="{{ route('download#productCsv') }}">
+                                <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                    CSV download
+                                </button>
+                            </a>
                         </div>
                     </div>
 

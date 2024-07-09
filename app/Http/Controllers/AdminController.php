@@ -16,6 +16,23 @@ class AdminController extends Controller
         return view('admin.account.changePassword');
     }
 
+    // download csv
+    public function generateCsV(){
+        $data = User::get();
+        $fileName = "userList.csv";
+        $fp=fopen($fileName, 'w+');
+        fputcsv($fp, array('Name', 'Email', 'Phone', 'Gender', 'Address'));
+
+        foreach($data as $row){
+            fputcsv($fp, array($row->name, $row->email, $row->phone, $row->gender, $row->address));
+        }
+
+        fclose($fp);
+        $headers = array('Content-Type' => 'text/csv');
+
+        return response()->download($fileName, 'userList.csv', $headers);
+    }
+
     // change password
     public function changePassword(Request $request){
 

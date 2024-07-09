@@ -29,6 +29,23 @@ class ProductController extends Controller
         return view('admin.product.create', compact('categories'));
     }
 
+    // download product list csv
+    public function generateCsV() {
+        $data = Product::get();
+        $fileName = 'productList.csv';
+        $fp = fopen($fileName, 'w+');
+        fputcsv($fp, array('Name', 'Price', 'Category'));
+
+        foreach($data as $row){
+            fputcsv($fp, array($row->name, $row->price, $row->category->name));
+        }
+
+        fclose($fp);
+        $headers = array('Content-Type' => 'text/csv');
+
+        return response()->download($fileName, 'productList.csv', $headers);
+    }
+
     // product create
     public function create(Request $request){
         $this->productValidationCheck($request,"create");

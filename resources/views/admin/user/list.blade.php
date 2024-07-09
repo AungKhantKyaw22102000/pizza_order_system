@@ -15,6 +15,13 @@
                                 <h2 class="title-1">Total - {{ $users->total() }}</h2>
                             </div>
                         </div>
+                        <div class="table-data__tool-right">
+                            <a href="{{ route('download#userCsv') }}">
+                                <button class="au-btn au-btn-icon au-btn--green au-btn--small">
+                                    CSV download
+                                </button>
+                            </a>
+                        </div>
                     </div>
 
                     <div class="row">

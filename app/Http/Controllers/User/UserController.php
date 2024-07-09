@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\Cart;
 use App\Models\User;
 use App\Models\Order;
+use App\Models\Rating;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
@@ -23,6 +24,11 @@ class UserController extends Controller
         $cart = Cart::where('user_id',Auth::user()->id)->get();
         $history = Order::where('user_id',Auth::user()->id)->get();
         return view('user.main.home', compact('pizza', 'category', 'cart', 'history'));
+    }
+
+    // direct contact page
+    public function contactPage() {
+        return view('user.main.contact');
     }
 
     // change password page
@@ -67,12 +73,19 @@ class UserController extends Controller
         return view('user.profile.account');
     }
 
-    // direct pizza detils
+    // direct pizza details
     public function pizzaDetails($id){
-        $pizza = Product::where('id',$id)->first();
-        $pizzaList = Product::get();
-        return view('user.main.details', compact('pizza', 'pizzaList'));
+        $pizza = Product::find($id);
+        if (!$pizza) {
+            return redirect()->back()->with('error', 'Pizza not found.');
+        }
+        $ratings = Rating::with(['user:id,name,image', 'product:id,name'])
+                        ->where('product_id', $id)
+                        ->get();
+        $pizzaList = Product::all();
+        return view('user.main.details', compact('pizza', 'pizzaList', 'ratings'));
     }
+
 
     // user account change
     public function accountChange($id, Request $request) {

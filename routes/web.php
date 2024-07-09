@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\RatingController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\User\AjaxController;
@@ -33,6 +35,13 @@ Route::middleware(['auth'])->group(function () {
             Route::post('update',[CategoryController::class, 'update'])->name('category#update');
         });
 
+        // contact
+        Route::prefix('contact')->group(function(){
+            Route::get('list', [ContactController::class, 'list'])->name('contact#list');
+            Route::get('generateContactCsv',[ContactController::class, 'generateCsV'])->name('download#contactCsv');
+            Route::get('delete/{id}',[ContactController::class,'delete'])->name('contact#delete');
+        });
+
         // admin account
         Route::prefix('admin')->group(function(){
             // password
@@ -46,6 +55,7 @@ Route::middleware(['auth'])->group(function () {
 
             // admin list
             Route::get('list',[AdminController::class, 'list'])->name('admin#list');
+            Route::get('generateUserCsv',[AdminController::class, 'generateCsV'])->name('download#userCsv');
             Route::get('delete/{id}',[AdminController::class, 'delete'])->name('admin#delete');
             Route::get('changeRole{id}',[AdminController::class, 'changeRole'])->name('admin#changeRole');
             Route::post('change/role/{id}',[AdminController::class, 'change'])->name('admin#change');
@@ -64,6 +74,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('create',[ProductController::class, 'createPage'])->name('product#createPage');
             Route::post('create',[ProductController::class, 'create'])->name('product#create');
             Route::get('delete/{id}',[ProductController::class, 'delete'])->name('product#delete');
+            Route::get('generateProductCsv',[ProductController::class, 'generateCsV'])->name('download#productCsv');
             Route::get('edit/{id}',[ProductController::class, 'edit'])->name('product#edit');
             Route::get('updatePage/{id}',[ProductController::class, 'updatePage'])->name('product#updatePage');
             Route::post('update',[ProductController::class, 'update'])->name('product#update');
@@ -72,6 +83,7 @@ Route::middleware(['auth'])->group(function () {
         // order
         Route::prefix('order')->group(function(){
             Route::get('list',[OrderController::class, 'list'])->name('admin#orderList');
+            Route::get('generateOrderCsv',[OrderController::class, 'generateCsV'])->name('download#orderCsv');
             Route::post('change/status',[OrderController::class, 'changeStatus'])->name('admin#changeStatus');
             Route::get('ajax/change/status',[OrderController::class, 'ajaxChangeStatus'])->name('admin#ajaxChangeStatus');
             Route::get('listInfo{orderCode}',[OrderController::class, 'listInfo'])->name('admin#orderListInfo');
@@ -92,6 +104,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('change',[UserController::class, 'change'])->name('user#changePassword');
         });
 
+        // contact
+        Route::prefix('contact')->group(function() {
+            Route::get('/',[UserController::class, 'contactPage'])->name('user#contactPage');
+            Route::post('form',[ContactController::class, 'contactCreate'])->name('user#contactCreate');
+        });
+
         // account
         Route::prefix('account')->group(function(){
             Route::get('change',[UserController::class, 'accountChangePage'])->name('user#accountchangePage');
@@ -109,8 +127,9 @@ Route::middleware(['auth'])->group(function () {
         });
 
         // product
-        Route::prefix('pizza')->group(function(){
+        Route::prefix('product')->group(function(){
             Route::get('detils/{id}',[UserController::class, 'pizzaDetails'])->name('user#pizzaDetails');
+            Route::post('details/rating',[RatingController::class, 'ratingCreate'])->name('user#ratingCreate');
         });
 
         // cart

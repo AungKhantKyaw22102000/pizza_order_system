@@ -17,6 +17,23 @@ class OrderController extends Controller
         return view ('admin.order.list',compact('order'));
     }
 
+    // download order list csv
+    public function generateCsV() {
+        $data = Order::get();
+        $fileName = 'orderList.csv';
+        $fp = fopen($fileName, 'w+');
+        fputcsv($fp, array('User ID', 'User Name', 'Order Code', 'Total Price', 'Order Status'));
+
+        foreach($data as $row){
+            fputcsv($fp, array($row->user_id, $row->user->name, $row->order_code, $row->total_price, $row->status));
+        }
+
+        fclose($fp);
+        $headers = array('Content-Type' => 'text/csv');
+
+        return response()->download($fileName, 'orderList.csv', $headers);
+    }
+
     // sort with ajax status
     public function changeStatus(Request $request){
         $order = Order::select('orders.*','users.name as user_name')

@@ -12,17 +12,16 @@
                     <div class="table-data__tool">
                         <div class="table-data__tool-left">
                             <div class="overview-wrap">
-                                <h2 class="title-1">Category List</h2>
-
+                                <h2 class="title-1">Contact List</h2>
                             </div>
                         </div>
-                        <div class="table-data__tool-right">
-                            <a href="{{ route('category#createPage') }}">
+                        <a href="{{ route('download#contactCsv') }}">
+                            <div class="table-data__tool-right">
                                 <button class="au-btn au-btn-icon au-btn--green au-btn--small">
-                                    <i class="zmdi zmdi-plus"></i>add item
+                                    CSV download
                                 </button>
-                            </a>
-                        </div>
+                            </div>
+                        </a>
                     </div>
 
                     @if (session('createSuccess'))
@@ -48,7 +47,7 @@
                             {{-- <h3 class="text-secondary"><i class="fa-solid fa-database"></i> ({{ $categories->total() }})  </h3> --}}
                         </div>
                         <div class="col-3 offset-6">
-                            <form action="{{ route('category#list') }}" method="get">
+                            <form action="{{ route('contact#list') }}" method="get">
                                 @csrf
                                 <div class="d-flex">
                                     <input type="text" name="key" class="form-control" value=" {{ request('key') }}" id="" placeholder="Search...">
@@ -61,43 +60,41 @@
                         </div>
                         <div class="row mt-2">
                             <div class="col-1 offset-10 bg-white shadow-sm p-2 mb-2 text-center">
-                                <h3 class="text-secondary"><i class="fa-solid fa-database"></i> ({{ $categories->total() }})  </h3>
+                                <h3 class="text-secondary"><i class="fa-solid fa-database"></i> ({{ $contacts->total() }})  </h3>
                             </div>
                         </div>
                     </div>
 
-                    @if (count($categories) != 0)
+                    @if (count($contacts) != 0)
                     <div class="table-responsive table-responsive-data2">
                         <table class="table table-data2 text-center">
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>Category Name</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Contact Subject</th>
+                                    <th>Contact Message</th>
                                     <th>Created Date</th>
                                     <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($categories as $category)
+                                @foreach ($contacts as $contact)
                                 <tr class="tr-shadow">
-                                    <td>{{ $category->id }}</td>
-                                    <td class="col-6">{{ $category->name }}</td>
-                                    <td>{{ $category->created_at->format('d-M-Y') }}</td>
+                                    <td>{{ $contact->id }}</td>
+                                    <td class="col-2">{{ $contact->name }}</td>
+                                    <td class="col-2">{{ $contact->email }}</td>
+                                    <td class="col-2">{{ $contact->subject }}</td>
+                                    <td class="col-2">{{ $contact->message }}</td>
+                                    <td>{{ $contact->created_at->format('d-M-Y') }}</td>
                                     <td>
                                         <div class="table-data-feature justify-content-center">
-                                            <a href="{{ route('category#edit',$category->id) }}">
-                                                <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Edit">
-                                                    <i class="zmdi zmdi-edit"></i>
-                                                </button>
-                                            </a>
-                                            <a href="{{ route('category#delete',$category->id) }}">
+                                            <a href="{{ route('contact#delete',$contact->id) }}">
                                                 <button class="item me-1" data-toggle="tooltip" data-placement="top" title="Delete">
                                                     <i class="zmdi zmdi-delete"></i>
                                                 </button>
                                             </a>
-                                            {{-- <button class="item" data-toggle="tooltip" data-placement="top" title="More">
-                                                <i class="zmdi zmdi-more"></i>
-                                            </button> --}}
                                         </div>
                                     </td>
                                 </tr>
@@ -106,12 +103,12 @@
                             </tbody>
                         </table>
                         <div class="mt-3">
-                            {{ $categories->links() }}
+                            {{ $contacts->links() }}
                             {{-- {{ $categories->appends(request()->query())->links() }} --}}
                         </div>
                     </div>
                     @else
-                    <h3 class="text-secondary text-center mt-5">There is not Category Here!</h>
+                    <h3 class="text-secondary text-center mt-5">There is no Contact Here!</h>
                     @endif
                     <!-- END DATA TABLE -->
                 </div>

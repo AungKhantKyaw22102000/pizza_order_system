@@ -79,7 +79,7 @@
                                     <div class="product-item bg-light mb-4" id="myForm">
                                         <div class="product-img position-relative overflow-hidden">
                                             <img class="img-fluid w-100" style="height: 350px"
-                                                src="{{ asset('storage/' . $p->image) }}" alt="">
+                                                src="{{ asset('storage/' . $p->image) }}" alt="{{ $p->name }}">
                                             <div class="product-action">
                                                 <a class="btn btn-outline-dark btn-square" href=""><i
                                                         class="fa fa-shopping-cart"></i></a>
@@ -89,7 +89,7 @@
                                         </div>
                                         <div class="text-center py-4">
                                             <a class="h6 text-decoration-none text-truncate"
-                                                href="">{{ $p->name }}</a>
+                                                href="{{ route('user#pizzaDetails', $p->id) }}">{{ $p->name }}</a>
                                             <div class="d-flex align-items-center justify-content-center mt-2">
                                                 <h5>{{ $p->price }}</h5>
                                             </div>

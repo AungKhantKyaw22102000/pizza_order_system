@@ -15,7 +15,7 @@ class CategoryController extends Controller
             $query->where('name','like','%'. $key .'%');
         })
         ->orderBy('id', 'desc')
-        ->paginate(4);
+        ->paginate(10);
         $categories->appends(request()->all());
         return view('admin.category.list',compact('categories'));
     }

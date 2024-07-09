@@ -50,12 +50,17 @@
                     <ul class="list-unstyled navbar__list">
                         <li class="active has-sub">
                             <a href="{{ route('category#list') }}">
-                                <i class="fas fa-chart-bar"></i> Category
+                                <i class="fas fa-chart-bar"></i> Category List
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('product#list') }}">
-                                <i class="fa-solid fa-pizza-slice"></i> Product
+                                <i class="fa-solid fa-pizza-slice"></i> Product List
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{{ route('contact#list') }}">
+                                <i class="fa-solid fa-message"></i> Contact List
                             </a>
                         </li>
                         <li>
@@ -83,11 +88,11 @@
                         <div class="header-wrap">
                             <h3>Admin Dashboard Panel</h3>
                             <div class="header-button">
-                                <div class="noti-wrap">
+                                {{-- <div class="noti-wrap">
                                     <div class="noti__item js-item-menu">
                                         <i class="zmdi zmdi-notifications"></i>
                                         <span class="quantity">3</span>
-                                        {{-- <div class="notifi-dropdown js-dropdown">
+                                        <div class="notifi-dropdown js-dropdown">
                                             <div class="notifi__title">
                                                 <p>You have 3 Notifications</p>
                                             </div>
@@ -121,9 +126,9 @@
                                             <div class="notifi__footer">
                                                 <a href="#">All notifications</a>
                                             </div>
-                                        </div> --}}
+                                        </div>
                                     </div>
-                                </div>
+                                </div> --}}
                                 <div class="account-wrap">
                                     <div class="account-item clearfix js-item-menu">
                                         <div class="image">
